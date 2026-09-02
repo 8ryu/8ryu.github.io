@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>8ryu - Portfolio</title>
+    <meta name="description" content="8ryu's Portfolio: Showcasing C / C++ Projects">
+    <style>
+        :root {
+            --bg-color: #f9f9f9;
+            --text-color: #333;
+            --section-bg: #fff;
+            --heading-color: #2c3e50;
+            --sub-heading: #34495e;
+            --border-color: #eaeaea;
+            --footer-color: #7f8c8d;
+            --shadow-color: rgba(0,0,0,0.05);
+            --link-color: #2c3e50;
+            --link-hover: #3498db;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #1a1a1a;
+                --text-color: #e0e0e0;
+                --section-bg: #2d2d2d;
+                --heading-color: #f0f0f0;
+                --sub-heading: #d0d0d0;
+                --border-color: #444;
+                --footer-color: #aaa;
+                --shadow-color: rgba(0,0,0,0.2);
+                --link-color: #e0e0e0;
+                --link-hover: #58a6ff;
+            }
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background-color: var(--bg-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 20px 12px;
+            }
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        h1 {
+            color: var(--heading-color);
+            margin-bottom: 10px;
+        }
+        .section {
+            background: var(--section-bg);
+            padding: 24px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px var(--shadow-color);
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+        h2 {
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 8px;
+            color: var(--sub-heading);
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        ul {
+            padding-left: 0;
+            margin-bottom: 0;
+            list-style: none;
+        }
+
+        /* ソーシャルリンク用のグリッドスタイル */
+        .social-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 12px;
+        }
+
+        /* スマホ画面（480px以下）のときは2列にする設定 */
+        @media (max-width: 480px) {
+            .social-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 8px;
+            }
+            .social-link {
+                padding: 10px 8px !important;
+                font-size: 0.78rem !important;
+                gap: 6px !important;
+            }
+            .social-link svg {
+                width: 16px !important;
+                height: 16px !important;
+            }
+        }
+
+        .social-link {
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            padding: 12px 14px;
+            border-radius: 6px;
+            text-decoration: none;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s, color 0.2s;
+        }
+        .social-link:hover {
+            transform: translateY(-2px);
+            border-color: var(--link-hover);
+            color: var(--link-hover);
+            box-shadow: 0 4px 8px var(--shadow-color);
+        }
+        .social-link svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+            flex-shrink: 0;
+        }
+        .social-link span {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* グリッドレイアウト（プロジェクト） */
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 12px;
+        }
+        .project-card {
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            padding: 12px 14px;
+            border-radius: 6px;
+            text-decoration: none;
+            color: var(--text-color);
+            transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .project-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--link-hover);
+            box-shadow: 0 4px 8px var(--shadow-color);
+        }
+        .project-card h3 {
+            margin: 0 0 4px 0;
+            font-size: 0.9rem;
+            color: var(--link-hover);
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        .project-card p {
+            margin: 0;
+            font-size: 0.75rem;
+            color: var(--footer-color);
+        }
+
+        /* --- アコーディオン（すべて見るボタン）のスタイル --- */
+        details {
+            margin-top: 0;
+        }
+        summary {
+            list-style: none;
+            cursor: pointer;
+            text-align: center;
+            margin-top: 16px;
+            padding: 10px 16px;
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--link-color);
+            transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+            user-select: none;
+        }
+        summary::-webkit-details-marker {
+            display: none;
+        }
+        summary:hover {
+            border-color: var(--link-hover);
+            color: var(--link-hover);
+        }
+        details[open] summary {
+            margin-bottom: 12px;
+        }
+        details summary::after {
+            content: " ▼ See all";
+            font-size: 0.8rem;
+        }
+        details[open] summary::after {
+            content: " ▲ Close";
+        }
+        .project-grid.extra-projects {
+            margin-top: 12px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: var(--footer-color);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>8ryu</h1>
+    </header>
+
+    <main>
+        <section class="section">
+            <h2>Social accounts</h2>
+            <ul class="social-grid">
+                <li>
+                    <a href="https://github.com/8ryu" class="social-link" target="_blank" rel="noopener noreferrer">
+                        <!-- GitHub Icon -->
+                        <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                        <span>GitHub</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://x.com/_8ryu" class="social-link" target="_blank" rel="noopener noreferrer">
+                        <!-- X (Twitter) Icon -->
+                        <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                        <span>X / Twitter</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://www.instagram.com/__8ryu" class="social-link" target="_blank" rel="noopener noreferrer">
+                        <!-- Instagram Icon -->
+                        <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                        <span>Instagram</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://www.threads.net/@__8ryu" class="social-link" target="_blank" rel="noopener noreferrer">
+                        <!-- Threads Icon -->
+                        <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M12.186 8.672c-.895.01-1.625.328-2.176.945-.53.593-.812 1.41-.837 2.435 1.054.062 1.846-.164 2.375-.68.52-.507.781-1.215.781-2.126.002-.206-.05-.386-.143-.574zm5.82 2.66c-.035-1.077-.32-2.008-.853-2.775-.558-.795-1.31-1.383-2.245-1.753-.923-.365-1.957-.549-3.085-.549-1.127 0-2.164.184-3.098.55-1.008.39-1.797.986-2.352 1.777-.557.795-.845 1.727-.862 2.784-.017 1.057.25 1.986.797 2.766.541.77 1.285 1.353 2.222 1.737.935.38 1.957.572 3.052.572 1.026 0 1.994-.158 2.888-.475l-.575-1.684c-.753.255-1.536.383-2.338.383-.787 0-1.531-.137-2.22-.408-.68-.266-1.222-.647-1.614-1.135-.38-.474-.59-1.066-.621-1.765 2.115.112 3.738-.28 4.847-1.163 1.025-.815 1.545-1.921 1.55-3.303.003-.538-.106-1.042-.323-1.503-.225-.479-.556-.889-.982-1.22-.435-.341-.955-.595-1.547-.752-.601-.161-1.272-.243-2.001-.243-1.533 0-2.83.29-3.868.863-1.029.565-1.815 1.34-2.341 2.312-.526.979-.792 2.091-.795 3.321-.004 1.488.358 2.793 1.077 3.902.73 1.126 1.745 1.988 3.029 2.575 1.274.582 2.723.877 4.323.877 1.554 0 2.946-.277 4.155-.826 1.226-.557 2.206-1.325 2.923-2.287.733-.984 1.135-2.146 1.205-3.468.077-1.442-.234-2.733-.923-3.856zm-4.708 6.452c-.657.34-1.428.514-2.301.514-.948 0-1.802-.191-2.548-.568-.745-.375-1.353-.895-1.813-1.551-.453-.646-.71-1.391-.767-2.223.11.023.226.042.348.056 1.13.134 2.05-.1 2.748-.691.684-.579 1.03-1.35 1.03-2.298 0-.497-.107-.945-.316-1.332-.213-.396-.516-.714-.903-.945-.38-.225-.836-.338-1.359-.338-.535 0-.996.11-1.373.325-.373.21-.663.504-.863.874-.2.365-.313.782-.331 1.237-.024.587.108 1.11.391 1.558.288.455.702.823 1.233 1.096l-.683 1.562c-.895-.421-1.581-1.028-2.046-1.808-.475-.795-.713-1.714-.707-2.744.006-1.124.319-2.125.93-2.986.619-.87 1.472-1.536 2.544-1.986 1.06-.441 2.279-.665 3.635-.665 1.157 0 2.193.167 3.093.501.912.339 1.637.828 2.164 1.458.53.642.823 1.408.872 2.288.058 1.042-.191 1.954-.741 2.716-.54.747-1.306 1.304-2.28 1.658l.613 1.614c1.196-.462 2.146-1.196 2.836-2.185.698-.999 1.062-2.197 1.082-3.57.025-1.545-.347-2.923-1.104-4.116-.749-1.177-1.801-2.074-3.141-2.677-1.331-.599-2.887-.902-4.646-.902-1.794 0-3.376.31-4.721.921-1.336.604-2.392 1.488-3.15 2.637-.768 1.163-1.158 2.502-1.164 3.998-.008 1.83.473 3.39 1.433 4.654.953 1.251 2.283 2.174 3.966 2.75l.62-1.635z"/></svg>
+                        <span>Threads</span>
+                    </a>
+                </li>
+            </ul>
+        </section>
+
+        <section class="section">
+            <h2>Projects</h2>
+            
+            <!-- 常に表示する最初の4件 -->
+            <div class="project-grid">
+                <a href="https://github.com/8ryu/login-app" class="project-card" target="_blank" rel="noopener noreferrer">
+                    <h3>Login application</h3>
+                    <p>C / C++</p>
+                </a>
+                <a href="https://github.com/8ryu/fortune-app" class="project-card" target="_blank" rel="noopener noreferrer">
+                    <h3>Fortune-telling app</h3>
+                    <p>C / C++</p>
+                </a>
+                <a href="https://github.com/8ryu/calculator-app" class="project-card" target="_blank" rel="noopener noreferrer">
+                    <h3>Calculator app</h3>
+                    <p>C / C++</p>
+                </a>
+                <a href="https://github.com/8ryu/BMI-calc" class="project-card" target="_blank" rel="noopener noreferrer">
+                    <h3>Body Mass Index Calculator</h3>
+                    <p>C / C++</p>
+                </a>
+            </div>
+
+            <!-- タップするまで隠れている残りの全て -->
+            <details>
+                <summary></summary>
+                <div class="project-grid extra-projects">
+                    <a href="https://github.com/8ryu/Social-casino-app" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>Social casino app</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/notepad-app" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>Notepad app</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/diary-app" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>Diary app</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/time-recorder-app" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>Time Recorder App</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/bank-app" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>bank app</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/Household-budget-app" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>Household budget app</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/Salary-calculator-app" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>手取り計算機アプリ</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/tic-tac-toe" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>Tic-tac-toe</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/maze-escape" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>Maze Escape</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/chat-app" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>chat app</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/group-chat-app" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>Group chat app</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/POS-register-system" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>POS Register System</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/IMS" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>Inventory Management System (IMS)</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/salon-booking-system" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>Salon booking system</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/RPG" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>RPG</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/Check-URL" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>Check URL</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/lottery" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>宝くじ当選確率</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/Dust-Simulation" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>Dust Simulation</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/Weather-Simulation" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>Weather Simulation</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/Fireworks-Simulation" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>Fireworks Simulation</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/sandy-water" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>Falling Sand Simulation</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/N-body-simulation" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>N-body simulation</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/Ripple-Simulation" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>Ripple Simulation</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/analog-clock" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>analog clock</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/name-list" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>name list</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/QR-code" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>QR code</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/line-graph" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>line graph</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/bar-graph" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>bar graph</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/scatter-plot" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>scatter plot</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/area-graph" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>area graph</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/donut-chart" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>donut chart</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/CHV" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>Cyber Hologram Visualizer</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/snake-game" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>snake game</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/physics-simulation" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>physics simulation</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/geometric-patterns" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>geometric patterns</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/hearing-test" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>hearing test</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/drawing-app" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>drawing app</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/Breakout-clone" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>Breakout clone</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/Space-Invaders-clone" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>Space Invaders clone</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/Digital-rain" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>Digital rain</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/Ripple-Simulation2" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>Ripple Simulation2</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/ASCII-Digit-Counter" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>ASCII Digit Counter</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/ASCII-Wave" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>ASCII Wave Animation</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/3D-Rotating-Cube" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>3D Rotating Cube</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/3D-Starfield-Warp" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>3D Starfield Warp</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/Game-of-Life" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>Game of Life</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/Memory" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>Memory</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/Othello" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>Othello</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/Dice" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>Dice</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/spider" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>spider</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/fly-swatter" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>fly swatter</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/Ant-Colony-Simulation" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>Ant Colony Simulation</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/roach-simulation" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>roach simulation</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/centipede-simulation" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>centipede simulation</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/school-of-fish" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>school of fish</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/flock-of-birds" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>flock of birds</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/Zombie-Apocalypse" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>Zombie Apocalypse</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/racing-game" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>racing game</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/gunslinger" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>gunslinger</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/aurora" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>aurora</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/spider2" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>Spider Adventure</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/big-bang" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>Big Bang Simulation</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/MindMap-Physics" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>MindMap Physics</h3>
+                        <p>C / C++</p>
+                    </a>
+                    <a href="https://github.com/8ryu/Minesweeper" class="project-card" target="_blank" rel="noopener noreferrer">
+                        <h3>Minesweeper</h3>
+                        <p>C / C++</p>
+                    </a>
+                </div>
+            </details>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 8ryu. Published with GitHub Pages.</p>
+    </footer>
+
+</body>
+</html>
